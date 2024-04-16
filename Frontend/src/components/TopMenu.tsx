@@ -18,6 +18,7 @@ export default async function TopMenu() {
                     width={0} height={0} sizes='100vh'/>
                 </Link>
                 <TopMenuItem title='Restaurants' pageRef='/car' />
+                <TopMenuItem title='Search' pageRef='/search' />
                 <TopMenuItem title='My Reservation' pageRef='/reservations' />
             </div>
             

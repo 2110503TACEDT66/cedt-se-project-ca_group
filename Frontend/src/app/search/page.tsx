@@ -9,7 +9,7 @@ export default async function Search() {
     }
     return (
         <main className="text-center p-5 ">
-            <h1 className="text-5xl font-medium p-10">Select Your Restaurants</h1>
+            <h1 className="text-5xl font-medium p-10">Search Your Restaurants</h1>
             <form className="w-[100%] flex flex-col items-center space-y-4 pt-13 bg-white" action={addSearch}>
                     <input type="text" required id="name" name="name" placeholder="Search Restaurants" 
                                 className="bg-white border-2 border-gray-200 rounded w-full p-2 
