@@ -2,13 +2,14 @@ import getCars from "@/libs/getCars"
 import CarCatalog from "@/components/CarCatalog"
 import { Suspense } from "react"
 import { LinearProgress } from "@mui/material"
-import { RestaurantJson } from "../../../../interfaces"
+import { RestaurantJson } from "../../../../../interfaces"
 import { Link } from '@mui/material';
+import getSearch from "@/libs/getSearch"
 
 
-export default async function Car() {
-
-    const cars:RestaurantJson = await getCars()
+export default async function SearchDetailPage( {params}:{params:{key:string}}) {
+ 
+    const cars = await getSearch(params.key)
 
     return (
         <main className="text-center p-5 ">

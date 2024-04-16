@@ -131,3 +131,29 @@ exports.deleteRestaurant = async (req,res,next) => {
     }
    
 };
+
+//@desc Search restaurants by name
+//@route GET /api/v1/restaurants/:search
+//@access Public
+exports.searchRestaurants = async (req, res, next) => {
+    try {
+        const { restaurantName } = req.query;
+
+        if (!restaurantName) {
+            return res.status(400).json({ success: false, error: 'Please provide a restaurant name' });
+        }
+
+        const query = Restaurant.find({ name: { $regex: restaurantName, $options: 'i' } });
+
+        const restaurants = await query;
+
+        if (restaurants.length === 0) {
+            return res.status(404).json({ success: false, error: 'No restaurants found with the provided name' });
+        }
+
+        res.status(200).json({ success: true, count: restaurants.length, data: restaurants });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: 'Server Error' });
+    }
+};

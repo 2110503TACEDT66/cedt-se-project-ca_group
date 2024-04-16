@@ -12,9 +12,8 @@ export default async function RegisterPage() {
         const telephonenumber = addUserForm.get("tel")as string || "";
         const email = addUserForm.get("email")as string || "";
         const password = addUserForm.get("password")as string || "";
-        const role = addUserForm.get("role")as string || "";
 
-        const regis = register(name ,telephonenumber ,email ,password ,role)
+        const regis = register(name ,telephonenumber ,email ,password ,"user")
         redirect("/")
     }    
 
@@ -54,15 +53,6 @@ export default async function RegisterPage() {
                     Password
                     </label>
                     <input type="text" required id="password" name="password" placeholder="Password"
-                            className="bg-white border-2 border-gray-200 rounded w-full p-2 
-                            text-gray-700 focus:outline-none focus:border-blue-400"/>
-                    </div>
-
-                    <div className="flex items-center w-1/2 my-2">
-                    <label className="w-auto block text-gray-700 pr-4" htmlFor="role">
-                    Role
-                    </label>
-                    <input type="text" required id="role" name="role" placeholder="admin,user"
                             className="bg-white border-2 border-gray-200 rounded w-full p-2 
                             text-gray-700 focus:outline-none focus:border-blue-400"/>
                     </div>

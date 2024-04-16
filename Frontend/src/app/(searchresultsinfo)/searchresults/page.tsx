@@ -6,7 +6,7 @@ import { RestaurantJson } from "../../../../interfaces"
 import { Link } from '@mui/material';
 
 
-export default async function Car() {
+export default async function Searchpageinfo() {
 
     const cars:RestaurantJson = await getCars()
 

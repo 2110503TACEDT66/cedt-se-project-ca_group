@@ -4,7 +4,8 @@ const {
   getRestaurant,
   createRestaurant,
   updateRestaurant,
-  deleteRestaurant
+  deleteRestaurant,
+  searchRestaurants
 } = require("../controllers/restaurant");
 
 const reservationRouter = require("./reservations");
@@ -17,6 +18,9 @@ const { protect, authorize } = require("../middleware/auth");
 router.use('/:restaurantId/reservations', reservationRouter);
 router.use('/:restaurantId/reviews', reviewRouter);
 
+router
+  .route("/:search")
+  .get(searchRestaurants);
 router
   .route("/")
   .get(getRestaurants) 
