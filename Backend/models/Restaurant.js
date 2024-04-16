@@ -19,7 +19,13 @@ const RestaurantSchema = new mongoose.Schema({
    openningtime:{                                           // Do we need a closing time?
         type: String,
         required: [true, 'Please add a opentime'] 
-   }
+   },
+   priceRange: {
+        type: Number,
+        min: 1,
+        max: 5,
+        required: [true, 'Please add a price range between 1 and 5']
+}
    
 },{
     toJSON:{virtuals:true},
