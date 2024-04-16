@@ -72,6 +72,7 @@ exports.getRestaurants = async (req,res,next) => {
 //@access Public
 exports.getRestaurant = async (req,res,next) => {
     try {
+        console.log("GET /api/v1/restaurants/search");
         const  restaurant = await Restaurant.findById(req.params.id);
 
         if(!restaurant) {
@@ -137,6 +138,7 @@ exports.deleteRestaurant = async (req,res,next) => {
 //@access Public
 exports.searchRestaurants = async (req, res, next) => {
     try {
+       
         const { restaurantName } = req.query;
 
         if (!restaurantName) {
@@ -155,5 +157,23 @@ exports.searchRestaurants = async (req, res, next) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, error: 'Server Error' });
+    }
+};
+
+//@desc Get Restaurants (limit to 4)
+//@route GET /api/v1/restaurants/:limit
+//@access Public
+exports.getRestaurantslimitfour = async (req, res, next) => {
+    try {
+        const restaurants = await Restaurant.find().limit(4).populate('reservations reviews');
+        const total = await Restaurant.countDocuments();
+        
+        const pagination = {
+            next: total > 4 ? { page: 2, limit: 4 } : null
+        };
+
+        res.status(200).json({ success: true, count: restaurants.length, data: restaurants, pagination });
+    } catch (err) {
+        res.status(400).json({ success: false });
     }
 };
