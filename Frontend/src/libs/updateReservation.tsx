@@ -1,5 +1,5 @@
 export default async function updateReservation(reservationID:string,userrsvDate:string,token:string) {
-    const response = await fetch(`http://projectreservationjack.us-east-1.elasticbeanstalk.com/api/v1/reservations/${reservationID}`, {
+    const response = await fetch(`http://localhost:5000/api/v1/reservations/${reservationID}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

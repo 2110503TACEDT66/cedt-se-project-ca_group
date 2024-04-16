@@ -1,5 +1,5 @@
 export default async function register(username:string, usertelephonenumber:string, useremail:string, userpassword:string,userrole:string) {
-    const response = await fetch("http://projectreservationjack.us-east-1.elasticbeanstalk.com/api/v1/auth/register", {
+    const response = await fetch("http://localhost:5000/api/v1/auth/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -1,5 +1,5 @@
 export default async function getReservation(token:string) {
-    const response = await fetch("http://projectreservationjack.us-east-1.elasticbeanstalk.com/api/v1/reservations", {
+    const response = await fetch("http://localhost:5000/api/v1/reservations", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
