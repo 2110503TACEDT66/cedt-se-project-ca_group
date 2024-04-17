@@ -30,9 +30,9 @@ export default async function ReservationDetailPage( {params}:{params:{rid:strin
             <form className="w-[100%] flex flex-col items-center space-y-4 pt-13 bg-white" action={updateReservationf}>
                     <div className="flex items-center w-1/2 my-2">
                     <label className="w-auto block text-gray-700 pr-4" htmlFor="date">
-                        Date [YYYY-MM-DDTHH:MM:SSZ]
+                        Date:
                     </label>
-                    <input type="text" required id="date" name="date" placeholder="YYYY-MM-DDTHH:MM:SSZ (2024-04-15T19:00:00Z)" 
+                    <input type="date" required id="date" name="date" placeholder="YYYY-MM-DDTHH:MM:SSZ (2024-04-15T19:00:00Z)" 
                             className="bg-white border-2 border-gray-200 rounded w-full p-2 
                             text-gray-700 focus:outline-none focus:border-blue-400"/>
                     </div>
