@@ -18,6 +18,7 @@ export interface RestaurantItem{
     openningtime: string,
     restaurant: string,
     website: string,
+    priceRange: number,
     _id: string,
     id: string,
 }
