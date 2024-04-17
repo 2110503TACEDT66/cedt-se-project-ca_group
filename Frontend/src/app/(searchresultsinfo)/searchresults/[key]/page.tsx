@@ -9,7 +9,7 @@ import getSearch from "@/libs/getSearch"
 
 export default async function SearchDetailPage( {params}:{params:{key:string}}) {
  
-    const cars = await getSearch(params.key)
+    const cars = await getSearch("Ame",1,5)
 
     return (
         <main className="text-center p-5 ">

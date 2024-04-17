@@ -7,9 +7,7 @@ export default async function CarCatalog({carJson}:{carJson:RestaurantJson}) {
     const carJsonReady = await carJson
     return (
         <>
-        <div className="text-right px-10 py-4">
-            {carJsonReady.count} Restaurants
-        </div>
+        
         
         <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
                 {
