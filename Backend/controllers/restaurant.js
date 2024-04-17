@@ -138,20 +138,23 @@ exports.deleteRestaurant = async (req,res,next) => {
 //@access Public
 exports.searchRestaurants = async (req, res, next) => {
     try {
-       
-        const { restaurantName } = req.query;
+        const { restaurantName, minPrice, maxPrice } = req.query;
 
-        if (!restaurantName) {
-            return res.status(400).json({ success: false, error: 'Please provide a restaurant name' });
+        const searchCriteria = {};
+
+        if (restaurantName) {
+            searchCriteria.name = { $regex: restaurantName, $options: 'i' };
         }
 
-        const query = Restaurant.find({ name: { $regex: restaurantName, $options: 'i' } });
+        if (minPrice && maxPrice) {
+            searchCriteria.priceRange = { 
+                $gte: parseInt(minPrice),
+                $lte: parseInt(maxPrice) 
+            };
+        }
 
+        const query = Restaurant.find(searchCriteria).sort('priceRange');
         const restaurants = await query;
-
-        if (restaurants.length === 0) {
-            return res.status(404).json({ success: false, error: 'No restaurants found with the provided name' });
-        }
 
         res.status(200).json({ success: true, count: restaurants.length, data: restaurants });
     } catch (err) {
