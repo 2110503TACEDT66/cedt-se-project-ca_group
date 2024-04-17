@@ -4,8 +4,7 @@ import { authOptions } from "@/libs/auth";
 import getUserProfile from "@/libs/getUserProfile"
 import reservation from "@/libs/reservation"
 import { redirect } from "next/navigation"
-
-
+import ReviewCard from "@/components/reviewcard";
 
 export default async function CarDetailPage( {params}:{params:{cid:string}}) {
 
@@ -15,6 +14,10 @@ export default async function CarDetailPage( {params}:{params:{cid:string}}) {
 
     const profile = await getUserProfile(session.user.token)
     var createdAt = new Date(profile.data.createdAt)
+    const reviews = [
+        { reviewer: "John Doe", comment: "Great experience!", rating: 5 },
+        { reviewer: "Jane Smith", comment: "Very comfortable.", rating: 4 } 
+    ];
 
     const addReservation = async (addUserForm: FormData) => {
         "use server"
@@ -44,7 +47,16 @@ export default async function CarDetailPage( {params}:{params:{cid:string}}) {
                     </div>
                     <button type="submit" className="block rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Make Reservation</button>
             </form>
-            
+            {reviews.map((review, index) => (
+  <ReviewCard
+    key={index}
+    carName={carDetail.data.name}
+    reviewer={review.reviewer}
+    comment={review.comment}
+    rating={review.rating}
+  />
+))}
+
         </main>
     )
 }

@@ -18,11 +18,7 @@ export default function productcard( {carName,imgSrc,tel,openningtime,onCompare}
                 <div className='w-full h-[6%] p-[3px] px-5'>{tel}</div>
                 <div className='w-full h-[6%] p-[0px] px-5'>{openningtime}</div>
             </div>
-            {
-                onCompare? <button className='block h-[10%] text-sm rounded-md bg-sky-600 hover:bg-ingigo-600 mx-2 px-1 py-1 text-white'
-                onClick={ (e)=> {e.stopPropagation(); e.preventDefault(); onCompare(carName)}}>Compare</button> : ''
-            }
-            
+         
         </InteractiveCard>
        
     );
