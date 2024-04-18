@@ -1,30 +1,23 @@
-import React from 'react';
+import InteractiveCard from './InteractiveCard';
+import Image from 'next/image'
+import Link from 'next/link';
+import { RestaurantJson, RestaurantItem, ReservationItem, ReservationJson } from '../../interfaces';
+import React from 'react'; 
+import { Rating } from '@mui/material';
 
-interface ReviewCardProps {
-    carName: string;
-    reviewer: string;
-    comment: string;
-    rating: number;
+export default function ReviewCard( {comment,rating} : 
+    {comment:string, rating:string} ) { 
+    
+    return (
+        <main>
+            <div className='w-[330px] h-[200px] rounded-lg bg-slate-50 shadow-lg'>
+                    <div>
+                        <div> <Rating name="half-rating-read" defaultValue={parseInt(rating)} precision={0.5} readOnly /> </div>
+                        <div className='w-full h-[9%] p-[5px] px-2'>{comment}</div>
+                    </div>              
+            </div>
+        </main>
+       
+    );
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ carName, reviewer, comment, rating }) => {
-    // Utility function to render stars based on rating
-    const renderStars = () => {
-        return Array.from({ length: 5 }, (_, i) => (
-            <span key={i} className={`cursor-pointer hover:text-yellow-500 ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>
-                ★
-            </span>
-        ));
-    };
-
-    return (
-        <div className="bg-white p-5 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 space-y-3 border border-gray-200">
-            <h4 className="text-lg font-semibold text-gray-800">{carName} Review</h4>
-            <p className="text-sm font-medium text-gray-600">Reviewer: {reviewer}</p>
-            <p className="text-gray-700">{comment}</p>
-            <div className="flex">{renderStars()}</div>
-        </div>
-    );
-};
-
-export default ReviewCard;

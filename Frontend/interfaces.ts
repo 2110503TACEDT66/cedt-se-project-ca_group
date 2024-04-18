@@ -28,3 +28,15 @@ export interface RestaurantJson{
     pagination: Object,
     data: RestaurantItem[]
 }
+export interface ReviewItem{
+    comment: string,
+    rating: string,
+    _id: string,
+    id: string,
+}
+export interface ReviewJson{
+    success: boolean,
+    count: number,
+    pagination: Object,
+    data: ReviewItem[]
+}

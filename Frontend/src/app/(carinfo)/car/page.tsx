@@ -32,7 +32,7 @@ export default async function Car() {
                     <label className="w-auto block text-gray-700  m-4" htmlFor="Min">
                         Min 
                     </label>
-                    <select id="min" name="min" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400">
+                    <select id="min" name="min" className="bg-white border-2 border-gray-200 rounded w-28 p-2 text-gray-700 focus:outline-none focus:border-blue-400">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -42,7 +42,7 @@ export default async function Car() {
                     <label className="w-auto block text-gray-700  m-4" htmlFor="Max">
                         Max 
                     </label>
-                    <select id="max" name="max" className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400">
+                    <select id="max" name="max" className="bg-white border-2 border-gray-200 rounded w-28 p-2 text-gray-700 focus:outline-none focus:border-blue-400">
                         <option>5</option>
                         <option>4</option>
                         <option>3</option>
@@ -55,9 +55,9 @@ export default async function Car() {
                 
             </form>
         </div>
-            
+            <Suspense fallback={<p>Loading... <LinearProgress/></p>}>
             <CarCatalog carJson={cars}/>
-
+            </Suspense>
         </main>
     )
 }

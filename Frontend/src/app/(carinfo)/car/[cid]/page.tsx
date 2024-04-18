@@ -4,7 +4,9 @@ import { authOptions } from "@/libs/auth";
 import getUserProfile from "@/libs/getUserProfile";
 import reservation from "@/libs/reservation";
 import { redirect } from "next/navigation";
-import ReviewCard from "@/components/reviewcard";
+import getReview from "@/libs/getReview";
+import ReviewCatalog from "@/components/ReviewCatalog";
+import postReview from "@/libs/postReview";
 
 export default async function CarDetailPage({ params }: { params: { cid: string } }) {
     const carDetail = await getCar(params.cid);
@@ -12,12 +14,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
     if (!session || !session.user.token) return null;
 
     const profile = await getUserProfile(session.user.token);
-    const reviews = [
-        { reviewer: "John Doe", comment: "Great experience!", rating: 5 },
-        { reviewer: "Jane Smith", comment: "Very comfortable.", rating: 4 },
-        { reviewer: "Emily White", comment: "The car was clean and well-maintained.", rating: 4 },
-        { reviewer: "Mark Brown", comment: "Decent service but the booking was a bit delayed.", rating: 3 }
-    ];
+    const myReview = await getReview(params.cid,session.user.token)
     
 
     const addReservation = async (addUserForm: FormData) => {
@@ -26,6 +23,16 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
         await reservation(date, profile.data._id, params.cid, session.user.token);
         redirect("/reservations");
     };
+
+    const comment = async (addUserForm: FormData) => {
+        "use server"
+        const comment = addUserForm.get("comment")as string ||" ";
+        const rating = addUserForm.get("rating")as string || " ";
+        await postReview(session.user.token,params.cid,rating,comment);
+
+
+        redirect(`/car/${params.cid}`)
+    } 
 
     return (
         <main className="w-full flex flex-col items-center space-y-4 pt-20 bg-white">
@@ -44,17 +51,36 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
                 </div>
                 <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Make Reservation</button>
             </form>
-            <div className="flex flex-row space-x-4 overflow-x-auto justify-center w-full px-5">
-                {reviews.map((review, index) => (
-                    <ReviewCard
-                        key={index}
-                        carName={carDetail.data.name}
-                        reviewer={review.reviewer}
-                        comment={review.comment}
-                        rating={review.rating}
-                    />
-                ))}
+            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
+                <h1 className="ml-80 text-xl font-medium">Review</h1>
+                <div><hr /></div>
+
+                <form  className="w-[100%] flex flex-col items-center space-y-4 bg-white" action={comment}>
+                    <div className="flex items-center w-1/2 my-2 p-5">
+                    <input type="text" id="comment" name="comment" placeholder="Comment"
+                    className="bg-white border-2 border-gray-200 rounded w-full p-2
+                    text-gray-700 focus:outline-none focus:border-blue-400"/>
+                    <label className="w-auto block text-gray-700  m-4" htmlFor="Max">
+                        Rating 
+                    </label>
+                    <select id="rating" name="rating" className="bg-white border-2 border-gray-200 rounded w-28 p-2 text-gray-700 focus:outline-none focus:border-blue-400">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                    <button type="submit" className="block rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white m-5">Comment</button>
+                    </div>
+               
+                
+            </form>
+            <div><hr /></div>
+
+                <ReviewCatalog reviewJson={myReview}/>
             </div>
+            
+           
         </main>
     );
 }
