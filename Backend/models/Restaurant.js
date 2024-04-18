@@ -57,5 +57,18 @@ RestaurantSchema.virtual('reviews',{
     justOne:false
 });
 
+RestaurantSchema.pre(`deleteOne`,{ document:true, query:false},async function(next){
+    console.log(`Restaurant Promotion being removed from restaurant ${this._id}`);
+    await this.model(`RestaurantPromo`).deleteMany({restaurant: this._id});
+
+    next();
+});
+RestaurantSchema.virtual('restaurantPromos',{
+    ref:'RestaurantPromo',
+    localField:'_id',
+    foreignField : 'restaurant',
+    justOne:false
+});
+
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);

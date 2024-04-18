@@ -40,3 +40,26 @@ export interface ReviewJson{
     pagination: Object,
     data: ReviewItem[]
 }
+
+
+export interface PromotionItem {
+    name: string,
+    detail: string,
+    restaurant: RestaurantItem,
+    startDate: Date,
+    endDate: Date,
+    _id: string,
+    id: string
+}
+export interface PromotionJson {
+    success: boolean,
+    count: number,
+    pagination: Object,
+    data: PromotionItem[]
+}
+
+
+
+
+
+
