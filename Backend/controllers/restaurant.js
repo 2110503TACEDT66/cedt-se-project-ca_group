@@ -72,6 +72,7 @@ exports.getRestaurants = async (req,res,next) => {
 //@access Public
 exports.getRestaurant = async (req,res,next) => {
     try {
+        console.log("GET /api/v1/restaurants/search");
         const  restaurant = await Restaurant.findById(req.params.id);
 
         if(!restaurant) {
@@ -137,23 +138,45 @@ exports.deleteRestaurant = async (req,res,next) => {
 //@access Public
 exports.searchRestaurants = async (req, res, next) => {
     try {
-        const { restaurantName } = req.query;
+        const { restaurantName, minPrice, maxPrice } = req.query;
 
-        if (!restaurantName) {
-            return res.status(400).json({ success: false, error: 'Please provide a restaurant name' });
+        const searchCriteria = {};
+
+        if (restaurantName) {
+            searchCriteria.name = { $regex: restaurantName, $options: 'i' };
         }
 
-        const query = Restaurant.find({ name: { $regex: restaurantName, $options: 'i' } });
+        if (minPrice && maxPrice) {
+            searchCriteria.priceRange = { 
+                $gte: parseInt(minPrice),
+                $lte: parseInt(maxPrice) 
+            };
+        }
 
+        const query = Restaurant.find(searchCriteria).sort('priceRange');
         const restaurants = await query;
-
-        if (restaurants.length === 0) {
-            return res.status(404).json({ success: false, error: 'No restaurants found with the provided name' });
-        }
 
         res.status(200).json({ success: true, count: restaurants.length, data: restaurants });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, error: 'Server Error' });
+    }
+};
+
+//@desc Get Restaurants (limit to 4)
+//@route GET /api/v1/restaurants/:limit
+//@access Public
+exports.getRestaurantslimitfour = async (req, res, next) => {
+    try {
+        const restaurants = await Restaurant.find().limit(4).populate('reservations reviews');
+        const total = await Restaurant.countDocuments();
+        
+        const pagination = {
+            next: total > 4 ? { page: 2, limit: 4 } : null
+        };
+
+        res.status(200).json({ success: true, count: restaurants.length, data: restaurants, pagination });
+    } catch (err) {
+        res.status(400).json({ success: false });
     }
 };

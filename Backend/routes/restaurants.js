@@ -5,7 +5,8 @@ const {
   createRestaurant,
   updateRestaurant,
   deleteRestaurant,
-  searchRestaurants
+  searchRestaurants,
+  getRestaurantslimitfour,
 } = require("../controllers/restaurant");
 
 const reservationRouter = require("./reservations");
@@ -17,18 +18,22 @@ const { protect, authorize } = require("../middleware/auth");
 
 router.use('/:restaurantId/reservations', reservationRouter);
 router.use('/:restaurantId/reviews', reviewRouter);
-
 router
-  .route("/:search")
-  .get(searchRestaurants);
+.route("/limit")
+.get(getRestaurantslimitfour)
 router
   .route("/")
   .get(getRestaurants) 
   .post(protect, authorize("admin"), createRestaurant);
+  
+router
+  .route("/search/:searchId")
+  .get(searchRestaurants);
+  
 router
   .route("/:id")
   .get(getRestaurant)
   .put(protect, authorize("admin"), updateRestaurant)
   .delete(protect, authorize("admin"), deleteRestaurant);
-
+  
 module.exports = router;

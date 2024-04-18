@@ -18,6 +18,7 @@ export interface RestaurantItem{
     openningtime: string,
     restaurant: string,
     website: string,
+    priceRange: number,
     _id: string,
     id: string,
 }
@@ -39,6 +40,8 @@ export interface ReviewJson{
     pagination: Object,
     data: ReviewItem[]
 }
+
+
 export interface PromotionItem {
     name: string,
     detail: string,
@@ -54,4 +57,9 @@ export interface PromotionJson {
     pagination: Object,
     data: PromotionItem[]
 }
+
+
+
+
+
 

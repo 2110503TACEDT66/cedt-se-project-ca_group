@@ -2,14 +2,15 @@ import getCars from "@/libs/getCars"
 import CarCatalog from "@/components/CarCatalog"
 import { Suspense } from "react"
 import { LinearProgress } from "@mui/material"
-import { RestaurantJson } from "../../../../interfaces"
+import { RestaurantJson } from "../../../../../../../interfaces"
 import { Link } from '@mui/material';
+import getSearch from "@/libs/getSearch"
 import { redirect } from "next/navigation";
 
 
-export default async function Car() {
-
-    const cars:RestaurantJson = await getCars()
+export default async function SearchDetailPage( {params}:{params:{key:string,min:string,max:string}}) {
+ 
+    const cars = await getSearch(params.key,parseInt(params.min),parseInt(params.max))
     const Search = async (addUserForm: FormData) => {
         "use server"
         const name = addUserForm.get("name")as string ||" ";
@@ -17,11 +18,10 @@ export default async function Car() {
         const max = addUserForm.get("max")as string || " ";
 
         redirect(`/searchresults/${name}/${min}/${max}`)
-    }  
+    } 
 
     return (
         <main className="text-center p-5 ">
-
             <h1 className="text-5xl font-medium p-10">Select Your Restaurants</h1>
             <div className="text-center p-5">
             <form  className="w-[100%] flex flex-col items-center space-y-4 bg-white" action={Search}>
@@ -54,7 +54,8 @@ export default async function Car() {
                
                 
             </form>
-        </div>
+            </div>
+            
             <Suspense fallback={<p>Loading... <LinearProgress/></p>}>
             <CarCatalog carJson={cars}/>
             </Suspense>
