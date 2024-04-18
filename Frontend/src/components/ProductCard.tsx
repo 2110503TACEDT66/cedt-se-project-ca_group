@@ -46,7 +46,7 @@ export default async function productcard( {carName,imgSrc,tel,openningtime,pric
             </div>
             <div>
                 <div className='w-full h-[9%] p-[5px] font-bold px-5'>{carName}</div>
-                <div><Rating name="half-rating-read" defaultValue={averageRating} precision={0.5} readOnly /><p>{myReview.count} reviews</p></div>
+                <div className='w-full h-[6%] p-[0px] px-5 item-center'><Rating name="half-rating-read" defaultValue={averageRating} precision={0.5} readOnly /><p>{myReview.count} reviews</p></div>
                 <div className='w-full h-[6%] p-[0px] px-5'>{openningtime}</div>
                 <div className='w-full h-[6%] p-[0px] px-5 text-green-700 font-bold'>{renderPrice(priceRange)}</div>
 
