@@ -7,6 +7,10 @@ import { redirect } from "next/navigation";
 import getReview from "@/libs/getReview";
 import ReviewCatalog from "@/components/ReviewCatalog";
 import postReview from "@/libs/postReview";
+import PromotionCatalog from "@/components/PromotionCatalog";
+import Link from "next/link";
+import { PromotionItem } from "../../../../../interfaces";
+import PromotionCard from "@/components/PromotionCard";
 
 export default async function CarDetailPage({ params }: { params: { cid: string } }) {
     const carDetail = await getCar(params.cid);
@@ -75,6 +79,27 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
                
                 
             </form>
+            <div>
+                <div><hr /></div>
+                <div>
+                    <h3 className="text-center my-[15px]">Promotions</h3>
+                </div>
+
+                {
+                    carDetail.data.restaurantPromos.length?
+                    <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
+                        {
+                            carDetail.data.restaurantPromos.map((promoItem: PromotionItem)=>(
+                                <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
+                                    <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
+                                /> 
+                                </Link>
+                            ))
+                        }
+                    </div>:<div className="text-center">No promotion available</div>
+                }
+
+            </div>
             <div><hr /></div>
 
                 <ReviewCatalog reviewJson={myReview}/>

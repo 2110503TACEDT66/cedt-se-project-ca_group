@@ -14,7 +14,7 @@ export default async function PromotionCatalog({PromoJson}:{PromoJson:Promise<Pr
             <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
                 {
                     promotions.data.map((promoItem: PromotionItem)=>(
-                        <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
+                        <Link href={`/promotion/${promoItem._id}`} className="w-1/5 my-2 mx-2">
                             <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
                            /> 
                         </Link>

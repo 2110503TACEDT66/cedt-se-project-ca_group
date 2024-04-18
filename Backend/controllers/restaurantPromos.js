@@ -77,6 +77,21 @@ exports.getRestaurantPromo = async (req,res,next) => {
     
 };
 
+exports.getPromoByRestaurantId = async (req,res,next) => {
+    try {
+        const  restaurantPromo = await RestaurantPromo.findById(req.params.id);
+
+        if(!restaurantPromo) {
+            return res.status(400).json({success:false});
+        }
+
+        res.status(200).json({success:true,data:restaurantPromo});
+    } catch (error) {
+        return res.status(400).json({success:false});
+    }
+    
+};
+
 exports.createRestaurantPromo = async (req,res,next) => {
     const restaurantPromo = await RestaurantPromo.create(req.body);
     res.status(201).json({success:true, data:restaurantPromo});
