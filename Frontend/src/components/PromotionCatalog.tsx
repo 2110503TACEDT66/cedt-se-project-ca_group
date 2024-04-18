@@ -5,12 +5,6 @@ import PromotionCard from "./PromotionCard";
 export default async function PromotionCatalog({PromoJson}:{PromoJson:Promise<PromotionJson>})  {
     const promotions = await PromoJson
     // console.log(promotions)
-
-    {
-        // promotions.data.map((promoItem: PromotionItem)=>(
-        // //   console.log(promoItem)
-        // ))
-    }
     return (
         <>
             <div className="text-center px-10 py-4">
