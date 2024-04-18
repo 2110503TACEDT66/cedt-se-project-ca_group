@@ -27,3 +27,19 @@ export interface RestaurantJson{
     pagination: Object,
     data: RestaurantItem[]
 }
+export interface PromotionItem {
+    name: string,
+    detail: string,
+    restaurant: RestaurantItem,
+    startDate: Date,
+    endDate: Date,
+    _id: string,
+    id: string
+}
+export interface PromotionJson {
+    success: boolean,
+    count: number,
+    pagination: Object,
+    data: PromotionItem[]
+}
+
