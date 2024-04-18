@@ -19,7 +19,6 @@ export default async function ReviewCatalog({reviewJson}:{reviewJson:ReviewJson}
     return (
         <>
         <div className="text-right mr-3">{reviewJsonReady.count} reviews</div>
-        <div className="text-right mr-3">{averageRating} reviews</div>
         
         <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
                 {
