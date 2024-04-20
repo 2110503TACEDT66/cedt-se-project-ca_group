@@ -10,10 +10,10 @@ export default function ReviewCard( {comment,rating} :
     
     return (
         <main>
-            <div className='w-[330px] h-[200px] rounded-lg bg-slate-50 shadow-lg'>
-                    <div>
-                        <div> <Rating name="half-rating-read" defaultValue={parseInt(rating)} precision={0.5} readOnly /> </div>
-                        <div className='w-full h-[9%] p-[5px] px-2'>{comment}</div>
+            <div className="w-[330px] h-[200px] rounded-lg bg-slate-50 shadow-lg">
+                    <div className="flex flex-col items-center py-2">
+                        <Rating name="half-rating-read" defaultValue={parseInt(rating)} precision={0.5} sx={{color: 'red'}} readOnly />
+                        <div className="w-full h-[9%] p-[5px] px-2">{comment}</div>
                     </div>              
             </div>
         </main>

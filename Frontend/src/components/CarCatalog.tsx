@@ -2,15 +2,6 @@ import Link from "next/link"
 import ProductCard from "./ProductCard"
 import { RestaurantJson } from "../../interfaces"
 import { RestaurantItem } from "../../interfaces"
-import getCar from "@/libs/getCar";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/libs/auth";
-import getUserProfile from "@/libs/getUserProfile";
-import reservation from "@/libs/reservation";
-import { redirect } from "next/navigation";
-import getReview from "@/libs/getReview";
-import ReviewCatalog from "@/components/ReviewCatalog";
-import postReview from "@/libs/postReview";
 
 export default async function CarCatalog({carJson}:{carJson:RestaurantJson}) {
     const carJsonReady = await carJson

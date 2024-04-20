@@ -31,9 +31,10 @@ export default async function productcard( {carName,imgSrc,tel,openningtime,pric
                 return acc + rating;
             }, 0);
     
-            return reviews.length > 0 ? (totalRating / reviews.length).toFixed(2) : 0;
+            return reviews.length > 0 ? (totalRating / reviews.length) : 0;
         };
     const averageRating = calculateAverageRating(myReview.data);
+    const precisionAverageRating = averageRating.toFixed(1);
     
     return (
         <InteractiveCard contentName={carName}>          
@@ -46,7 +47,11 @@ export default async function productcard( {carName,imgSrc,tel,openningtime,pric
             </div>
             <div>
                 <div className='w-full h-[9%] p-[5px] font-bold px-5'>{carName}</div>
-                <div className='w-full h-[6%] p-[0px] px-5 item-center'><Rating name="half-rating-read" defaultValue={averageRating} precision={0.5} readOnly /><p>{myReview.count} reviews</p></div>
+                <div className='w-full h-[6%] p-[0px] px-5 item-center'>
+                    <Rating name="half-rating-read" defaultValue={averageRating} precision={0.5} size="small" 
+                        sx={{color: 'red'}} readOnly /> {precisionAverageRating}
+                    <p>({myReview.count} reviews)</p>
+                </div>
                 <div className='w-full h-[6%] p-[0px] px-5'>{openningtime}</div>
                 <div className='w-full h-[6%] p-[0px] px-5 text-green-700 font-bold'>{renderPrice(priceRange)}</div>
 
