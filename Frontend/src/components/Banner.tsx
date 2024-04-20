@@ -1,23 +1,15 @@
-'use client'
-import { useState } from 'react';
-import styles from './banner.module.css'
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import SearchIcon from '@mui/icons-material/Search';
+import { redirect } from "next/navigation";
 
-
-export default function Banner(){
-    const covers = ['/img/projcover.png']
-    const [index,setIndex] = useState(0)
-    const router = useRouter()
-
-    const {data: session} = useSession()
-    console.log(session)
+export default async function Banner(){
+    const covers = '/img/projcover.png'
 
     return (
-        <div className={styles.banner} onClick={()=>{ setIndex(index+1)}}>
-            <Image src={covers[index%1]} alt='cover' fill={true} priority objectFit='cover' />
-            <div className={styles.bannerText}>
+        <div className="block p-1 m-0 w-screen h-[60vh] relative">
+            <Image src={covers} alt='cover' fill={true} priority objectFit='cover' />
+            
+            <div className="relative top-[100px] z-20 text-center">
                 <h1 className='text-8xl font-serif text-white font-bold'> Restaurant</h1>
                 <h1 className='text-8xl font-serif text-white font-bold'> Reservation</h1>
             </div>

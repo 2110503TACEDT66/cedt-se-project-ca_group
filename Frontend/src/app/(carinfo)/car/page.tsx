@@ -3,7 +3,7 @@ import CarCatalog from "@/components/CarCatalog"
 import { Suspense } from "react"
 import { LinearProgress } from "@mui/material"
 import { RestaurantJson } from "../../../../interfaces"
-import { Link } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { redirect } from "next/navigation";
 
 
@@ -26,8 +26,9 @@ export default async function Car() {
             <div className="text-center p-5">
             <form  className="w-[100%] flex flex-col items-center space-y-4 bg-white" action={Search}>
                     <div className="flex items-center w-1/2 my-2 p-5">
+                    <SearchIcon className="text-gray-500 m-2" />
                     <input type="text" id="name" name="name" placeholder="Search Restaurants"
-                    className="bg-white border-2 border-gray-200 rounded w-full p-2
+                    className="bg-white border-2 border-gray-200 rounded-xl w-full p-2
                     text-gray-700 focus:outline-none focus:border-blue-400"/>
                     <label className="w-auto block text-gray-700  m-4" htmlFor="Min">
                         Min 
