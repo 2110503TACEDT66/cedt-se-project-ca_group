@@ -36,14 +36,12 @@ export default async function Home() {
             </form>
       </div>
       <div className='p-10'>
-            <Suspense fallback={<p>Loading... <LinearProgress/></p>}>
               <h1 className='w-full font-bold pt-20 pl-20 text-2xl'>Recommended Restaurants</h1>
-              <div className="flex justify-end"><Link href={"/car"} className="text-red-500 hover:text-blue-700 underline">view all</Link></div>
+              <div className="flex justify-end"><Link href={"/restaurant"} className="text-red-500 hover:text-blue-700 underline">view all</Link></div>
               <CarCatalog carJson={cars}/>
               <h1 className='w-full font-bold pt-20 pl-20 text-2xl'>Special Promotions</h1>
               <div className="flex justify-end"><Link href={"/promotion"} className="text-red-500 hover:text-blue-700 underline">view all</Link></div>
               <PromotionCatalog PromoJson={promos}/>
-            </Suspense>
       </div>
       
     </main>
