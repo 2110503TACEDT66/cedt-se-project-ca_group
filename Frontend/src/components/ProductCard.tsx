@@ -50,7 +50,7 @@ export default async function productcard( {carName,imgSrc,tel,openningtime,pric
                 <div className='w-full h-[6%] p-[0px] px-5 item-center'>
                     <Rating name="half-rating-read" defaultValue={averageRating} precision={0.5} size="small" 
                         sx={{color: 'red'}} readOnly /> {precisionAverageRating}
-                    <p>({myReview.count} reviews)</p>
+                    <p>({myReview.count} {myReview.count <= 1 ? 'review' : 'reviews'})</p>
                 </div>
                 <div className='w-full h-[6%] p-[0px] px-5'>{openningtime}</div>
                 <div className='w-full h-[6%] p-[0px] px-5 text-green-700 font-bold'>{renderPrice(priceRange)}</div>

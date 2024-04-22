@@ -8,7 +8,7 @@ export default async function ReviewCatalog({reviewJson}:{reviewJson:ReviewJson}
     const reviewJsonReady = await reviewJson
     return (
         <>
-        <div className="text-right mr-3">{reviewJsonReady.count} reviews</div>
+        <div className="text-right mr-3">{reviewJsonReady.count} {reviewJsonReady.count <= 1 ? 'review' : 'reviews'}</div>
         
         <div style={{margin: "20px",display: "flex",flexDirection: "row",overflowX: "auto",
             padding: "20px",scrollbarWidth: "thin",scrollbarColor: "red lightgrey"}}>

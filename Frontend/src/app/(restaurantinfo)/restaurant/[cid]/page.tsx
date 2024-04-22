@@ -64,9 +64,9 @@ const HorizontalBars = ({ reviews }:{reviews:ReviewItem[]}) => {
 
                 return (
                     <div key={star} className="flex items-center">
-                        <div className="flex-1 bg-gray-300">
+                        <div className="flex-1 bg-gray-300 rounded">
                             <div
-                                className="bg-red-500"
+                                className="bg-red-500 rounded"
                                 style={{ width: `${widthRatio}%`, height: '10px' }}
                             />
                         </div>
