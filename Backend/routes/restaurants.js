@@ -11,6 +11,7 @@ const {
 
 const reservationRouter = require("./reservations");
 const reviewRouter = require('./reviews');
+const menuRouter = require('./menus');
 const router = express.Router();
 
 const { protect, authorize } = require("../middleware/auth");
@@ -18,6 +19,7 @@ const { protect, authorize } = require("../middleware/auth");
 
 router.use('/:restaurantId/reservations', reservationRouter);
 router.use('/:restaurantId/reviews', reviewRouter);
+router.use('/:restaurantId/menus', menuRouter);
 router
 .route("/limit")
 .get(getRestaurantslimitfour)

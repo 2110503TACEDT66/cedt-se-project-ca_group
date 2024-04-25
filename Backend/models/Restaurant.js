@@ -25,7 +25,7 @@ const RestaurantSchema = new mongoose.Schema({
         min: 1,
         max: 5,
         required: [true, 'Please add a price range between 1 and 5']
-}
+    }
    
 },{
     toJSON:{virtuals:true},
@@ -65,6 +65,19 @@ RestaurantSchema.pre(`deleteOne`,{ document:true, query:false},async function(ne
 });
 RestaurantSchema.virtual('restaurantPromos',{
     ref:'RestaurantPromo',
+    localField:'_id',
+    foreignField : 'restaurant',
+    justOne:false
+});
+
+RestaurantSchema.pre(`deleteOne`,{ document:true, query:false},async function(next){
+    console.log(`Restaurant Menu being removed from restaurant ${this._id}`);
+    await this.model(`Menu`).deleteMany({restaurant: this._id});
+
+    next();
+});
+RestaurantSchema.virtual('menus',{
+    ref:'Menu',
     localField:'_id',
     foreignField : 'restaurant',
     justOne:false

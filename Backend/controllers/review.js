@@ -1,7 +1,5 @@
 const Review = require('../models/Review');
 const Restaurant = require('../models/Restaurant');
-const Reservation = require('../models/Reservation');
-
 
 exports.getReviews = async (req,res,next)=>{
     let query;
@@ -15,7 +13,6 @@ exports.getReviews = async (req,res,next)=>{
         });
     }
     
-
     try {
         const reviews = await query;
         res.status(200).json({

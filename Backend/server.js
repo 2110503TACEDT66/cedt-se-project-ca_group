@@ -27,6 +27,7 @@ const auth = require('./routes/auth');
 const reservations = require('./routes/reservations');
 const reviews = require('./routes/reviews');
 const restaurantPromos = require('./routes/restaurantPromos');
+const menus = require('./routes/menus');
 
 
 app.use(express.json());
@@ -43,6 +44,7 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/reservations',reservations);
 app.use('/api/v1/reviews',reviews);
 app.use('/api/v1/promotions', restaurantPromos);
+app.use('api/v1/menus', menus);
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, console.log('Server running in ', process.env.NODE_ENV, 'on '+ process.env.HOST + ":"+ PORT));
 
