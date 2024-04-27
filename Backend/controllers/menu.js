@@ -8,7 +8,7 @@ exports.getMenus = async (req,res,next) => {
     let query;
     if (req.params.restaurantId) {
         console.log(req.params.restaurantId);
-        query = Menu.find({ restaurant: req.params.restaurantId }).populate('menureviews');
+        query = Menu.find({ restaurant: req.params.restaurantId }).populate('menureviews promotions');
     } else {
         query = Menu.find().populate({
             path: 'restaurant',

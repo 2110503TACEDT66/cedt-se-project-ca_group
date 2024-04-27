@@ -23,10 +23,6 @@ const MenuSchema = new mongoose.Schema({
     toObject: {virtuals:true}
 });
 
-//Will we use existed review & promotion?
-//add menu schema into review & promotion??
-
-
 MenuSchema.pre(`deleteOne`,{ document:true, query:false},async function(next){
     console.log(`Reviews being removed from restaurant ${this._id}`);
     await this.model(`Menureview`).deleteMany({menu: this._id});
@@ -39,5 +35,12 @@ MenuSchema.virtual('menureviews',{
     foreignField : 'menu',
     justOne:false
 });
+MenuSchema.virtual('promotions', {
+    ref: 'RestaurantPromo',
+    localField: '_id',
+    foreignField: 'menu',
+    justOne: false
+});
+
 
 module.exports = mongoose.model('Menu', MenuSchema);

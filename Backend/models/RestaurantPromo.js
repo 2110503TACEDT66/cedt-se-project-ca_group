@@ -23,5 +23,10 @@ const RestaurantPromoSchema = new mongoose.Schema({
         type: Date,
         required:true
     },
+    menu:[{
+        type:mongoose.Schema.ObjectId,
+        ref: 'Menu',
+        required:true
+    }],
 })
 module.exports=mongoose.model('RestaurantPromo',RestaurantPromoSchema);
