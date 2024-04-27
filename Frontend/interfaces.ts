@@ -65,11 +65,40 @@ export interface MenuJson {
     data: MenuItem[]
 }
 
+export interface menureviewsItem {
+    _id: string,
+    rating: number,
+    comment: string,
+    user: string,
+    menu: string
+}
+
+export interface promotionsItem {
+    name: string,
+    detail: string,
+    restaurant: RestaurantItem,
+    startDate: Date,
+    endDate: Date,
+    _id: string,
+    id: string
+}
+
+export interface menupromotionsItem {
+    _id: string,
+    name: string,
+    detail: string,
+    restaurant: string,
+    startDate: string,
+    endDate: string
+}
+
 export interface MenuItem {
     _id: string,
     name: string,
     price: number,
     restaurant: string,
+    menureviews: menureviewsItem,
+    promotions: menupromotionsItem,
     id: string
 }
 

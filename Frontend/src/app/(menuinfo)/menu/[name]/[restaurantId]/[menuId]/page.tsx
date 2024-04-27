@@ -9,38 +9,41 @@ import ReviewCatalog from "@/components/ReviewCatalog";
 import postReview from "@/libs/postReview";
 import PromotionCatalog from "@/components/PromotionCatalog";
 import Link from "next/link";
-import { PromotionItem, ReviewItem } from "../../../../../interfaces";
+import { PromotionItem, ReviewItem, menupromotionsItem ,MenuItem } from "../../../../../../../interfaces";
 import PromotionCard from "@/components/PromotionCard";
 import { Rating} from "@mui/material";
 import getMenus from "@/libs/getMenu";
 import MenuCatalog from "@/components/MenuCatalog";
-import RecomMenuCard from "@/components/RecomMenuCard";
+import ReviewCard from "@/components/reviewcard";
+import postMenuReview from "@/libs/postMenureview";
 
-export default async function CarDetailPage({ params }: { params: { cid: string } }) {
-    const carDetail = await getCar(params.cid);
+export default async function MenuDetailPage({ params }: { params: { name: string, restaurantId: string, menuId: string } }) {
     const session = await getServerSession(authOptions);
-    const menudata = await getMenus(params.cid);
     if (!session || !session.user.token) return null;
-
     const profile = await getUserProfile(session.user.token);
-    const myReview = await getReview(params.cid,session.user.token)
-    
-    const addReservation = async (addUserForm: FormData) => {
-        "use server";
-        const date = addUserForm.get("date") as string || "";
-        await reservation(date, profile.data._id, params.cid, session.user.token);
-        redirect("/reservations");
+
+    const findPromotion = (menu: MenuItem[]) => {
+        for (let i = 0; i < menu.length; i++) { 
+            if (menu[i].name === params.name) { 
+                return menu[i];
+            }
+        }
     };
+
+    const menudata = await getMenus(params.restaurantId);
+    const thismenudata = await findPromotion(menudata.data);
+
 
     const comment = async (addUserForm: FormData) => {
         "use server"
         const comment = addUserForm.get("comment")as string ||" ";
         const rating = addUserForm.get("rating")as string || " ";
-        await postReview(session.user.token,params.cid,rating,comment);
+        await postMenuReview(session.user.token,params.restaurantId,params.menuId,rating,comment);
 
 
-        redirect(`/car/${params.cid}`)
+        redirect(`/menu/${params.name}/${params.restaurantId}//${params.menuId}`)
     } 
+
     const calculateAverageRating = (reviews: ReviewItem[]) => {
         const totalRating = reviews.reduce((acc, current) => {
             const rating = parseFloat(current.rating);
@@ -49,9 +52,10 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
 
         return reviews.length > 0 ? (totalRating / reviews.length) : 0;
     };
-    const averageRating = calculateAverageRating(myReview.data).toFixed(1);
+    const averageRating = calculateAverageRating(thismenudata.menureviews).toFixed(1);
 
-    const totalRating = myReview.count;
+    const totalRating = thismenudata.menureviews.length;
+
     const countReviewsWithRating = (reviews: ReviewItem[], targetRating: number): number => {
         return reviews.reduce((acc, review) => {
             const rating = parseFloat(review.rating);
@@ -59,13 +63,13 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
         }, 0);
     };
     const HorizontalBars = ({ reviews }:{reviews:ReviewItem[]}) => {
-
+    
         return (
             <div className="flex flex-col w-[15%] px-2">
                 {[5, 4, 3, 2, 1].map(star => {
                     const count = countReviewsWithRating(reviews, star);
                     const widthRatio = totalRating > 0 ? (count / totalRating) * 100 : 0;
-
+    
                     return (
                         <div key={star} className="flex items-center">
                             <div className="flex-1 bg-gray-300 rounded">
@@ -81,93 +85,36 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
             </div>
         );
     };
-
-    const findMaxRating = (menu: MenuItem[]) => {
-        let maxRat = 0;
-        for (let i = 0; i < menu.length; i++) { 
-            const averageRatingtd = calculateAverageRating(menu[i].menureviews);
-            if (maxRat < averageRatingtd) { 
-                maxRat = averageRatingtd;
-            }
-        }
-        return maxRat; 
-    };
-
-    const maxRating = await findMaxRating(menudata.data);
-
-    const findRecommended = (menu: MenuItem[]) => {
-        for (let i = 0; i < menu.length; i++) { 
-            const averageRatingtd = calculateAverageRating(menu[i].menureviews);
-            if (averageRatingtd === maxRating) { 
-                return menu[i];
-            }
-        }
-    };
-    const Recommended  = await findRecommended(menudata.data);
-
-
+    
     return (
         <main className="w-full flex flex-col items-center space-y-4 pt-20 bg-white">
-            <h1 className="text-5xl font-medium">{carDetail.data.name}</h1>
-            <div className="space-x-10 w-fit px-10 py-5 flex flex-row justify-center bg-orange-100 rounded-full">
-                <div className="text-md mx-5 font-medium">Address: {carDetail.data.address}</div>
-                <div className="text-md mx-5 font-medium">Tel: {carDetail.data.tel}</div>
-                <div className="text-md mx-5 font-medium">{carDetail.data.openningtime}</div>
-            </div>
-            <form className="w-full flex flex-col items-center space-y-4 pt-13 bg-white" action={addReservation}>
-                <div className="text-xl p-2">Booker: {profile.data.name}</div>
-                <div className="flex items-center w-1/2 my-2">
-                    <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">Date:</label>
-                    <input type="date" required id="date" name="date"
-                        className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
-                </div>
-                <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Make Reservation</button>
-            </form>
-            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
-            <h1 className="ml-80 text-xl font-medium">Recommended Menus</h1>
-            <div ><hr /></div>
-                {
-                    Recommended?
-                    <div style={{ margin: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}> 
-                    <RecomMenuCard name={Recommended.name} price={Recommended.price} resID={params.cid} menuID={Recommended._id}/>  
-                    </div>
-                    :<div className="text-center">No Recommended Menus Available</div>
-                }
-                
-                
-            </div>
-            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
-            <h1 className="ml-80 text-xl font-medium">Menus</h1>
-                <div><hr /></div>
-
-                {
-                    menudata.data.length?
-                    <MenuCatalog MenuJson={menudata} resID={params.cid}/>
-                    :<div className="text-center">No Menu Available</div>
-                }
-
-            </div>
+            
+            <h1 className="text-5xl font-medium items-center"> {params.name}</h1>
+            <Link href={`/restaurant/${params.restaurantId}`} >
+                            <div className="px-3 py-2 text-lg text-sky-900 ">
+                               Back to Restaurant Page
+                            </div>
+            </Link>
 
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
             <h1 className="ml-80 text-xl font-medium">Promotions</h1>
                 <div><hr /></div>
 
                 {
-                    carDetail.data.restaurantPromos.length?
+                    thismenudata.promotions.length?
                     <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
                         {
-                            carDetail.data.restaurantPromos.map((promoItem: PromotionItem)=>(
+                            thismenudata.promotions.map((promoItem: PromotionItem)=>(
                                 <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
                                     <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
                                 /> 
                                 </Link>
                             ))
                         }
-                    </div>:<div className="text-center">No Promotion Available</div>
+                    </div>:<div className="text-center">No promotion available</div>
                 }
 
             </div>
-            
 
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
                 <h1 className="ml-80 text-xl font-medium">Review</h1>
@@ -216,13 +163,19 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
                     <div><Rating defaultValue={2} size="small" max={2} sx={{color: 'black'}} readOnly /></div>
                     <div><Rating defaultValue={1} size="small" max={1} sx={{color: 'black'}} readOnly /></div>
                 </div>
-                <HorizontalBars reviews={myReview.data} />
+                <HorizontalBars reviews={thismenudata.menureviews} />
                 
             </div>
-                <ReviewCatalog reviewJson={myReview}/>
+                    <div style={{margin: "20px",display: "flex",flexDirection: "row",overflowX: "auto",
+                    padding: "20px",scrollbarWidth: "thin",scrollbarColor: "red lightgrey"}}>
+                        {thismenudata.menureviews.map((reviewItem:ReviewItem) => (   
+                            <div style={{ padding: "10px" }}>          
+                            <ReviewCard comment={reviewItem.comment} rating={reviewItem.rating} />
+                            </div>
+                        ))}
+                    </div>
             </div>
             
-           
         </main>
     );
 }

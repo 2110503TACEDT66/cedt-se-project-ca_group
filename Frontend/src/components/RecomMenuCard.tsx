@@ -3,7 +3,7 @@ import { Link } from '@mui/material';
 import getMenus from '@/libs/getMenu';
 import { PromotionItem, ReviewItem, menupromotionsItem ,MenuItem } from "../../interfaces";
 
-export default async function MenuCard( {name,price,resID,menuID} : {name: string, price: number,resID: string, menuID: string } ) { 
+export default async function RecomMenuCard( {name,price,resID,menuID} : {name: string, price: number,resID: string, menuID: string } ) { 
 
     const findPromotion = (menu: MenuItem[]) => {
         for (let i = 0; i < menu.length; i++) { 
@@ -28,7 +28,7 @@ export default async function MenuCard( {name,price,resID,menuID} : {name: strin
         
     return (
         <main>
-            <div className='w-[750px] h-[65px] rounded-lg bg-slate-100 relative'>
+            <div className='w-[750px] h-[65px] rounded-lg bg-orange-100 relative'>
                 <div className="pt-5 px-5 py-5">
                     <span className='block font-bold text-lg'>{name}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center mr-5">
