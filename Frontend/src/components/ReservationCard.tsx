@@ -4,16 +4,14 @@ import Link from 'next/link';
 import { RestaurantJson, RestaurantItem, ReservationItem, ReservationJson } from '../../interfaces';
 export default function ReservationCard( {rsvDate,user,restaurant,createdAt,rsvID} : 
     {rsvDate : string, user: string, restaurant: RestaurantItem, createdAt: string,rsvID:string} ) { 
-    
+        
     return (
         <main>
-            <div className='w-[330px] h-[300px] rounded-lg bg-slate-50 shadow-lg'>
+            <div className='w-[330px] h-[230px] rounded-lg bg-slate-50 shadow-lg'>
                     <div>
                         <div className='w-full h-[9%] pt-5 font-bold '>{restaurant.name}</div>
                         <div className='w-full h-[9%] p-[5px] font-bold px-2'>{restaurant.tel}</div>
-                        <div className='w-full h-[6%] p-[3px] px-5'>Date :{rsvDate}</div>
-                        <div className='w-full h-[6%] p-[0px] px-5'>User ID :{user}</div>
-                        <div className='w-full h-[6%] p-[0px] px-5'>createdAt :{createdAt}</div>
+                        <div className='w-full h-[6%] p-[3px] px-5'>Date : {rsvDate.substring(0, 10)}</div>
                     </div>
                     <div className='flex flex-row items-center px-[80px] pt-10'>
                         <div className='flex items-center h-full px-2 text-sm'>
