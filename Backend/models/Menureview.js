@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ReviewSchema=new mongoose.Schema({
+const MenureviewSchema=new mongoose.Schema({
     rating:{
         type: Number,
         required: [true, 'Please add rating for this restaurant']
@@ -14,12 +14,12 @@ const ReviewSchema=new mongoose.Schema({
         ref:'User',
         required:true
     },
-    restaurant:{
+    menu:{
         type:mongoose.Schema.ObjectId,
-        ref: 'Restaurant',
+        ref: 'Menu',
         required:true
     }
 });
 
 
-module.exports=mongoose.model('Review',ReviewSchema);
+module.exports=mongoose.model('Menureview',MenureviewSchema);

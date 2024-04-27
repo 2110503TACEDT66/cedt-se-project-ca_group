@@ -73,6 +73,7 @@ exports.getRestaurants = async (req,res,next) => {
 exports.getRestaurant = async (req,res,next) => {
     try {
         console.log("GET /api/v1/restaurants/search");
+        
         const  restaurant = await Restaurant.findById(req.params.id).populate('reservations reviews restaurantPromos menus');
 
         if(!restaurant) {
