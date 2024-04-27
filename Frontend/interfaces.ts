@@ -58,7 +58,20 @@ export interface PromotionJson {
     data: PromotionItem[]
 }
 
+export interface MenuJson {
+    success: boolean,
+    count: number,
+    pagination: Object,
+    data: MenuItem[]
+}
 
+export interface MenuItem {
+    _id: string,
+    name: string,
+    price: number,
+    restaurant: string,
+    id: string
+}
 
 
 

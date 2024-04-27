@@ -94,6 +94,30 @@ const HorizontalBars = ({ reviews }:{reviews:ReviewItem[]}) => {
                 </div>
                 <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Make Reservation</button>
             </form>
+
+            <div>
+                <div><hr /></div>
+                <div>
+                    <h3 className="text-center my-[15px] text-xl font-medium">Promotions2</h3>
+                </div>
+
+                {
+                    carDetail.data.restaurantPromos.length?
+                    <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
+                        {
+                            carDetail.data.restaurantPromos.map((promoItem: PromotionItem)=>(
+                                <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
+                                    <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
+                                /> 
+                                </Link>
+                            ))
+                        }
+                    </div>:<div className="text-center">No promotion available</div>
+                }
+
+            </div>
+            <div><hr /></div>
+
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
                 <h1 className="ml-80 text-xl font-medium">Review</h1>
                 <div><hr /></div>
@@ -118,28 +142,7 @@ const HorizontalBars = ({ reviews }:{reviews:ReviewItem[]}) => {
                
                 
             </form>
-            <div>
-                <div><hr /></div>
-                <div>
-                    <h3 className="text-center my-[15px] text-xl font-medium">Promotions</h3>
-                </div>
-
-                {
-                    carDetail.data.restaurantPromos.length?
-                    <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
-                        {
-                            carDetail.data.restaurantPromos.map((promoItem: PromotionItem)=>(
-                                <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
-                                    <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
-                                /> 
-                                </Link>
-                            ))
-                        }
-                    </div>:<div className="text-center">No promotion available</div>
-                }
-
-            </div>
-            <div><hr /></div>
+            
             <div className="flex justify-center items-center">
                 <div
                     style={{

@@ -12,10 +12,13 @@ import Link from "next/link";
 import { PromotionItem, ReviewItem } from "../../../../../interfaces";
 import PromotionCard from "@/components/PromotionCard";
 import { Rating} from "@mui/material";
+import getMenus from "@/libs/getMenu";
+import MenuCatalog from "@/components/MenuCatalog";
 
 export default async function CarDetailPage({ params }: { params: { cid: string } }) {
     const carDetail = await getCar(params.cid);
     const session = await getServerSession(authOptions);
+    const menudata = await getMenus(params.cid);
     if (!session || !session.user.token) return null;
 
     const profile = await getUserProfile(session.user.token);
@@ -95,6 +98,39 @@ const HorizontalBars = ({ reviews }:{reviews:ReviewItem[]}) => {
                 <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Make Reservation</button>
             </form>
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
+            <h1 className="ml-80 text-xl font-medium">Menus</h1>
+                <div><hr /></div>
+
+                {
+                    menudata.data.length?
+                    <MenuCatalog MenuJson={menudata}/>
+                    :<div className="text-center">No menu available</div>
+                }
+
+            </div>
+
+            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
+            <h1 className="ml-80 text-xl font-medium">Promotions</h1>
+                <div><hr /></div>
+
+                {
+                    carDetail.data.restaurantPromos.length?
+                    <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
+                        {
+                            carDetail.data.restaurantPromos.map((promoItem: PromotionItem)=>(
+                                <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
+                                    <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
+                                /> 
+                                </Link>
+                            ))
+                        }
+                    </div>:<div className="text-center">No promotion available</div>
+                }
+
+            </div>
+            
+
+            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
                 <h1 className="ml-80 text-xl font-medium">Review</h1>
                 <div><hr /></div>
 
@@ -118,28 +154,7 @@ const HorizontalBars = ({ reviews }:{reviews:ReviewItem[]}) => {
                
                 
             </form>
-            <div>
-                <div><hr /></div>
-                <div>
-                    <h3 className="text-center my-[15px] text-xl font-medium">Promotions</h3>
-                </div>
-
-                {
-                    carDetail.data.restaurantPromos.length?
-                    <div style={{margin:"20px", display:"flex", flexDirection:"row" , flexWrap:"wrap", justifyContent:"space-around",alignContent:"space-around"}}>
-                        {
-                            carDetail.data.restaurantPromos.map((promoItem: PromotionItem)=>(
-                                <Link href={`/promotion/${promoItem._id}`} className="w-1/5">
-                                    <PromotionCard name={promoItem.name} detail={promoItem.detail} restaurantname={promoItem.restaurant.name} startdate={promoItem.startDate.toString()} enddate={promoItem.endDate.toString()}
-                                /> 
-                                </Link>
-                            ))
-                        }
-                    </div>:<div className="text-center">No promotion available</div>
-                }
-
-            </div>
-            <div><hr /></div>
+            
             <div className="flex justify-center items-center">
                 <div
                     style={{
