@@ -8,14 +8,13 @@ exports.getMenus = async (req,res,next) => {
     let query;
     if (req.params.restaurantId) {
         console.log(req.params.restaurantId);
-        query = Menu.find({ restaurant: req.params.restaurantId });
+        query = Menu.find({ restaurant: req.params.restaurantId }).populate('menureviews');
     } else {
         query = Menu.find().populate({
             path: 'restaurant',
             select: 'name description tel'
         });
     }
-    
     try {
         const menus = await query;
         res.status(200).json({

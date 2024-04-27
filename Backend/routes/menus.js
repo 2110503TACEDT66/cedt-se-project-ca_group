@@ -7,9 +7,12 @@ const {
   deleteMenu,
 } = require("../controllers/menu");
 
+const reviewRouter = require('./menureviews');
 const router = express.Router({ mergeParams: true });
 
 const { protect, authorize } = require("../middleware/auth");
+
+router.use('/:menuId/menureviews', reviewRouter);
 
 router
   .route("/")

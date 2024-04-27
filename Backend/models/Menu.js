@@ -40,17 +40,4 @@ MenuSchema.virtual('menureviews',{
     justOne:false
 });
 
-// MenuSchema.pre(`deleteOne`,{ document:true, query:false},async function(next){
-//     console.log(`Reviews being removed from restaurant ${this._id}`);
-//     await this.model(`Review`).deleteMany({menu: this._id});
-
-//     next();
-// });
-// MenuSchema.virtual('reviews',{
-//     ref:'Review',
-//     localField:'_id',
-//     foreignField : 'menu',
-//     justOne:false
-// });
-
 module.exports = mongoose.model('Menu', MenuSchema);

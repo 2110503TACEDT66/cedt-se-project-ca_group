@@ -1,7 +1,5 @@
 const Restaurant = require('../models/Restaurant');
 
-
-
 //@desc Get all Restaurants
 //@route GET /api/v1/restaurants
 //@access Public
