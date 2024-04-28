@@ -16,6 +16,7 @@ import getMenus from "@/libs/getMenu";
 import MenuCatalog from "@/components/MenuCatalog";
 import ReviewCard from "@/components/reviewcard";
 import postMenuReview from "@/libs/postMenureview";
+import postMenuPromotion from "@/libs/addMenuPromo";
 
 export default async function MenuDetailPage({ params }: { params: { name: string, restaurantId: string, menuId: string } }) {
     const session = await getServerSession(authOptions);
@@ -85,6 +86,17 @@ export default async function MenuDetailPage({ params }: { params: { name: strin
             </div>
         );
     };
+
+    const addPromotion= async (addUserForm: FormData) => {
+        "use server";
+        const name = addUserForm.get("name") as string || "";
+        const detail = addUserForm.get("detail") as string || "";
+        const startdate = addUserForm.get("startdate") as string || "";
+        const enddate = addUserForm.get("enddate") as string || "";
+        await postMenuPromotion(session.user.token,name,detail,params.restaurantId,startdate,enddate,params.menuId);
+        redirect(`/menu/${params.name}/${params.restaurantId}//${params.menuId}`);
+    };
+
     
     return (
         <main className="w-full flex flex-col items-center space-y-4 pt-20 bg-white">
@@ -94,7 +106,7 @@ export default async function MenuDetailPage({ params }: { params: { name: strin
                             <div className="px-3 py-2 text-lg text-sky-900 ">
                                Back to Restaurant Page
                             </div>
-            </Link>
+            </Link> 
 
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
             <h1 className="ml-80 text-xl font-medium">Promotions</h1>
@@ -115,6 +127,45 @@ export default async function MenuDetailPage({ params }: { params: { name: strin
                 }
 
             </div>
+
+            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
+            {profile.data.role === "admin" ? (
+                <div>
+                <h1 className="ml-80 text-xl font-medium">Add Promotions</h1>
+                    <div><hr /></div>
+
+                    <form className="w-full flex flex-col items-center space-y-4 pt-5 bg-white" action={addPromotion}>
+                        <div className="text-xl p-2">Admin: {profile.data.name}</div>
+                        <div className="flex items-center w-1/2 my-2">
+                            <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">Name</label>
+                            <input type="text" id="name" name="name" placeholder="name"
+                            className="bg-white border-2 border-gray-200 rounded w-full p-2
+                            text-gray-700 focus:outline-none focus:border-blue-400"/>
+                        </div>
+                        <div className="flex items-center w-1/2 my-2">
+                            <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">Detail</label>
+                            <input type="text" id="detail" name="detail" placeholder="detail"
+                            className="bg-white border-2 border-gray-200 rounded w-full p-2
+                            text-gray-700 focus:outline-none focus:border-blue-400"/>
+                        </div>
+                        <div className="flex items-center w-1/2 my-2">
+                            <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">Start</label>
+                            <input type="date" required id="startdate" name="startdate"
+                                className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
+                        </div>
+                        <div className="flex items-center w-1/2 my-2">
+                            <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">End</label>
+                            <input type="date" required id="enddate" name="enddate"
+                                className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
+                        </div>
+                        <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Add Promotions</button>
+                    </form>
+
+                </div>
+            ) : (
+                <h1></h1>
+            )}
+            </div>           
 
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
                 <h1 className="ml-80 text-xl font-medium">Review</h1>
