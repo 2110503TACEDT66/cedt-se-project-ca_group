@@ -32,7 +32,7 @@ export default async function MenuCard( {name,price,resID,menuID} : {name: strin
                 <div className="pt-5 px-5 py-5">
                     <span className='block font-bold text-lg'>{name}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center mr-5">
-                        <span className='p-[5px] font-bold text-red-600 text-lg mr-5'>{price} $  </span>
+                        <span className='p-[5px] font-bold text-red-600 text-lg mr-5'>{price} ฿</span>
                         <Rating name="half-rating-read mr-5" defaultValue={averageRating} precision={0.5} sx={{color: 'red'}} readOnly />
                         <span className='p-[5px] font-bold text-red-600 text-lg mr-5'></span>
                         <Link href={`/menu/${name}/${resID}/${menuID}`} >

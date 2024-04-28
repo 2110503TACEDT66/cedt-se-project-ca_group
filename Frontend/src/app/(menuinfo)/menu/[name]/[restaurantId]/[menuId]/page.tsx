@@ -158,7 +158,7 @@ export default async function MenuDetailPage({ params }: { params: { name: strin
                             <input type="date" required id="enddate" name="enddate"
                                 className="bg-white border-2 border-gray-200 rounded w-full p-2 text-gray-700 focus:outline-none focus:border-blue-400" />
                         </div>
-                        <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Add Promotions</button>
+                        <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Add Promotion</button>
                     </form>
 
                 </div>

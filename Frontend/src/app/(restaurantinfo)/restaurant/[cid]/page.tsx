@@ -15,6 +15,7 @@ import { Rating} from "@mui/material";
 import getMenus from "@/libs/getMenu";
 import MenuCatalog from "@/components/MenuCatalog";
 import RecomMenuCard from "@/components/RecomMenuCard";
+import postMenu from "@/libs/postMenu";
 
 export default async function CarDetailPage({ params }: { params: { cid: string } }) {
     const carDetail = await getCar(params.cid);
@@ -105,6 +106,14 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
     };
     const Recommended  = await findRecommended(menudata.data);
 
+    const addMenu= async (addUserForm: FormData) => {
+        "use server";
+        const name = addUserForm.get("name") as string || "";
+        const price = addUserForm.get("price") as string || "";
+        await postMenu(session.user.token,params.cid,name,price);
+        redirect(`/restaurant/${params.cid}`);
+    };
+
 
     return (
         <main className="w-full flex flex-col items-center space-y-4 pt-20 bg-white">
@@ -147,6 +156,35 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
                 }
 
             </div>
+            
+            <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
+            {profile.data.role === "admin" ? (
+                <div >
+                <h1 className="ml-80 text-xl font-medium">Add Menu</h1>
+                    <div className="pt-5"><hr /></div>
+
+                    <form className="w-full flex flex-col items-center space-y-4 pt-5 bg-white" action={addMenu}>
+                        <div className="text-xl p-2">Admin: {profile.data.name}</div>
+                        <div className="flex items-center w-1/2 my-2">
+                            <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">Name</label>
+                            <input type="text" id="name" name="name" placeholder="name"
+                            className="bg-white border-2 border-gray-200 rounded w-full p-2
+                            text-gray-700 focus:outline-none focus:border-blue-400"/>
+                        </div>
+                        <div className="flex items-center w-1/2 my-2">
+                            <label className="block text-gray-700 pr-4 font-medium" htmlFor="date">Price</label>
+                            <input type="text" id="price" name="price" placeholder="price bath"
+                            className="bg-white border-2 border-gray-200 rounded w-full p-2
+                            text-gray-700 focus:outline-none focus:border-blue-400"/>
+                        </div>
+                        <button type="submit" className="rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white">Add Menu</button>
+                    </form>
+
+                </div>
+            ) : (
+                <h1></h1>
+            )}
+            </div>           
 
             <div className="w-full flex flex-col items-left space-y-4 pt-13 bg-white">
             <h1 className="ml-80 text-xl font-medium">Promotions</h1>
