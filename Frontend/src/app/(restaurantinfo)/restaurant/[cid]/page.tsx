@@ -39,7 +39,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
         await postReview(session.user.token,params.cid,rating,comment);
 
 
-        redirect(`/car/${params.cid}`)
+        redirect(`/restaurant/${params.cid}`)
     } 
     const calculateAverageRating = (reviews: ReviewItem[]) => {
         const totalRating = reviews.reduce((acc, current) => {
