@@ -15,6 +15,7 @@ exports.getMenus = async (req,res,next) => {
             select: 'name description tel'
         });
     }
+    query = query.sort('name');
     try {
         const menus = await query;
         res.status(200).json({
