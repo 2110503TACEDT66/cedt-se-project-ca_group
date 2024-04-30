@@ -65,30 +65,6 @@ module.exports = router;
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Menu:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *           description: The auto-generated ID of the menu item.
- *           example: 60f17500c7ad8b0039d1053e
- *         name:
- *           type: string
- *           description: The name of the menu item.
- *           example: "Margherita Pizza"
- *         price:
- *           type: number
- *           description: The price of the menu item.
- *           example: 12.99
- *       required:
- *         - name
- *         - price
- */
-
-/**
- * @swagger
  * /restaurants/{id}/menus:
  *   get:
  *     summary: Get all menus.
@@ -137,13 +113,13 @@ module.exports = router;
  *       '400':
  *         description: Bad request. Invalid input data.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '500':
  *         description: Internal server error.
  */
 /**
  * @swagger
- * /menus/{id}:
+ * /restaurants/{id}/menus/{menuId}:
  *   put:
  *     summary: Update a menu item by ID.
  *     description: Update a menu item with the provided ID.
@@ -153,17 +129,29 @@ module.exports = router;
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
+ *         description: ID of the restaurant.
  *         schema:
  *           type: string
+ *       - in: path
+ *         name: menuId
  *         required: true
- *         description: ID of the menu item to update.
+ *         description: ID of the menu item.
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Menu'
  *     responses:
  *       '200':
  *         description: Menu item updated successfully.
  *       '400':
  *         description: Bad request. Invalid input data.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '404':
  *         description: Menu item not found.
  *       '500':
@@ -185,10 +173,9 @@ module.exports = router;
  *       '204':
  *         description: Menu item deleted successfully.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '404':
  *         description: Menu item not found.
  *       '500':
  *         description: Internal server error.
  */
-

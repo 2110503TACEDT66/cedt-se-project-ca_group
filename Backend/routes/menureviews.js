@@ -168,7 +168,7 @@ module.exports = router;
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MenuReviewInput'
+ *             $ref: '#/components/schemas/MenuReview'
  *     responses:
  *       '200':
  *         description: Menu review updated successfully.
