@@ -61,8 +61,6 @@ module.exports = router;
  *     summary: Get all reviews.
  *     description: Retrieve all review items for a restaurant.
  *     tags: [Restaurant Reviews]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

@@ -54,8 +54,6 @@ module.exports = router;
  *     summary: Get all menu reviews.
  *     description: Retrieve all menu reviews for a specific menu item.
  *     tags: [Menu Reviews]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
