@@ -9,6 +9,7 @@ import getRestaurantLimit from '@/libs/getRestaurantLimit';
 import SearchIcon from '@mui/icons-material/Search';
 import { redirect } from "next/navigation";
 import PromotionCatalog from '@/components/PromotionCatalog';
+import { revalidatePath } from 'next/cache';
 
 export default async function Home() {
   const cars:RestaurantJson = await getRestaurantLimit()
@@ -19,7 +20,7 @@ export default async function Home() {
     const name = addUserForm.get("name")as string ||" ";
 
     redirect(`/searchresults/${name}/1/5`)
-  } 
+  }
 
   return (
     <main>
@@ -43,7 +44,6 @@ export default async function Home() {
               <div className="flex justify-end"><Link href={"/promotion"} className="text-red-500 hover:text-blue-700 underline">view all</Link></div>
               <PromotionCatalog PromoJson={promos}/>
       </div>
-      
     </main>
   );
 }

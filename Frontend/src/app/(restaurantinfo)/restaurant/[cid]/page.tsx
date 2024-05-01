@@ -9,13 +9,14 @@ import ReviewCatalog from "@/components/ReviewCatalog";
 import postReview from "@/libs/postReview";
 import PromotionCatalog from "@/components/PromotionCatalog";
 import Link from "next/link";
-import { PromotionItem, ReviewItem } from "../../../../../interfaces";
+import { MenuItem, PromotionItem, ReviewItem, menureviewsItem } from "../../../../../interfaces";
 import PromotionCard from "@/components/PromotionCard";
 import { Rating} from "@mui/material";
 import getMenus from "@/libs/getMenu";
 import MenuCatalog from "@/components/MenuCatalog";
 import RecomMenuCard from "@/components/RecomMenuCard";
 import postMenu from "@/libs/postMenu";
+import { revalidatePath } from "next/cache";
 
 export default async function CarDetailPage({ params }: { params: { cid: string } }) {
     const carDetail = await getCar(params.cid);
@@ -24,7 +25,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
     if (!session || !session.user.token) return null;
 
     const profile = await getUserProfile(session.user.token);
-    const myReview = await getReview(params.cid,session.user.token)
+    const myReview = await getReview(params.cid)
     
     const addReservation = async (addUserForm: FormData) => {
         "use server";
@@ -37,9 +38,12 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
         "use server"
         const comment = addUserForm.get("comment")as string ||" ";
         const rating = addUserForm.get("rating")as string || " ";
+        
         await postReview(session.user.token,params.cid,rating,comment);
 
-
+        console.log("comment: " + comment)
+        console.log("rating: " + rating)
+        revalidatePath(`/restaurant/${params.cid}`)
         redirect(`/restaurant/${params.cid}`)
     } 
     const calculateAverageRating = (reviews: ReviewItem[]) => {
@@ -82,11 +86,18 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
             </div>
         );
     };
+    const calculateMenuAverageRating = (reviews: menureviewsItem[]) => {
+        const totalRating = reviews.reduce((acc, current) => {
+            const rating = current.rating;
+            return acc + rating;
+        }, 0);
 
+        return reviews.length > 0 ? (totalRating / reviews.length) : 0;
+    };
     const findMaxRating = (menu: MenuItem[]) => {
         let maxRat = 0;
         for (let i = 0; i < menu.length; i++) { 
-            const averageRatingtd = calculateAverageRating(menu[i].menureviews);
+            const averageRatingtd = calculateMenuAverageRating(menu[i].menureviews);
             if (maxRat < averageRatingtd) { 
                 maxRat = averageRatingtd;
             }
@@ -98,7 +109,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
 
     const findRecommended = (menu: MenuItem[]) => {
         for (let i = 0; i < menu.length; i++) { 
-            const averageRatingtd = calculateAverageRating(menu[i].menureviews);
+            const averageRatingtd = calculateMenuAverageRating(menu[i].menureviews);
             if (averageRatingtd === maxRating) { 
                 return menu[i];
             }
@@ -201,7 +212,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
                                 </Link>
                             ))
                         }
-                    </div>:<div className="text-center">No Promotion Available</div>
+                    </div>:<div data-test="no-promotion-text" className="text-center">No Promotion Available</div>
                 }
 
             </div>
@@ -213,7 +224,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
 
                 <form  className="w-[100%] flex flex-col items-center space-y-4 bg-white" action={comment}>
                     <div className="flex items-center w-1/2 my-2 p-5">
-                    <input type="text" id="comment" name="comment" placeholder="Comment"
+                    <input data-test="comment-text" type="text" id="comment" name="comment" placeholder="Comment"
                     className="bg-white border-2 border-gray-200 rounded w-full p-2
                     text-gray-700 focus:outline-none focus:border-blue-400"/>
                     <label className="w-auto block text-gray-700  m-4 font-medium" htmlFor="Max">
@@ -226,7 +237,7 @@ export default async function CarDetailPage({ params }: { params: { cid: string 
                         <option>4</option>
                         <option>5</option>
                     </select>
-                    <button type="submit" className="block rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white m-5">Comment</button>
+                    <button data-test="submit-review" type="submit" className="block rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white m-5">Comment</button>
                     </div>
                
                 

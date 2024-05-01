@@ -1,5 +1,5 @@
 export default async function reservation(userrsvDate:string, userid:string, userrestaurant:string,token:string) {
-    const response = await fetch(`http://localhost:5000/api/v1/restaurants/${userrestaurant}/reservations/`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/restaurants/${userrestaurant}/reservations/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

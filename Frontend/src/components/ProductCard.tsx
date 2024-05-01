@@ -16,9 +16,9 @@ import { Rating } from '@mui/material';
 export default async function productcard( {carName,imgSrc,tel,openningtime,priceRange,id} : 
     {carName : string, imgSrc: string, tel: string, openningtime: string,priceRange: number, id:string} ) {
     
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user.token) return null;
-    const myReview:ReviewJson = await getReview(id,session.user.token) 
+    //const session = await getServerSession(authOptions);
+    //if (!session || !session.user.token) return null;
+    const myReview:ReviewJson = await getReview(id) 
 
     const renderPrice = (price:number)=>{
         return '$'.repeat(price);
@@ -46,15 +46,14 @@ export default async function productcard( {carName,imgSrc,tel,openningtime,pric
                 />
             </div>
             <div>
-                <div className='w-full h-[9%] p-[5px] font-bold px-5'>{carName}</div>
+                <div data-test="restaurant-card-name" className='w-full h-[9%] p-[5px] font-bold px-5'>{carName}</div>
                 <div className='w-full h-[6%] p-[0px] px-5 item-center'>
                     <Rating name="half-rating-read" defaultValue={averageRating} precision={0.5} size="small" 
                         sx={{color: 'red'}} readOnly /> {precisionAverageRating}
                     <p>({myReview.count} {myReview.count <= 1 ? 'review' : 'reviews'})</p>
                 </div>
                 <div className='w-full h-[6%] p-[0px] px-5'>{openningtime}</div>
-                <div className='w-full h-[6%] p-[0px] px-5 text-green-700 font-bold'>{renderPrice(priceRange)}</div>
-
+                <div data-test="price-range" className='w-full h-[6%] p-[0px] px-5 text-green-700 font-bold'>{renderPrice(priceRange)}</div>
             </div>
          
         </InteractiveCard>

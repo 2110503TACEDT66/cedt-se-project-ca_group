@@ -2,10 +2,9 @@ import getCars from "@/libs/getCars"
 import CarCatalog from "@/components/CarCatalog"
 import { Suspense } from "react"
 import { LinearProgress } from "@mui/material"
-import { RestaurantJson } from "../../../../../../../interfaces"
-import { Link } from '@mui/material';
 import getSearch from "@/libs/getSearch"
 import { redirect } from "next/navigation";
+import { revalidatePath, revalidateTag } from "next/cache"
 
 
 export default async function SearchDetailPage( {params}:{params:{key:string,min:string,max:string}}) {
@@ -17,6 +16,8 @@ export default async function SearchDetailPage( {params}:{params:{key:string,min
         const min = addUserForm.get("min")as string || " ";
         const max = addUserForm.get("max")as string || " ";
 
+        revalidateTag('searchTag')
+        revalidatePath(`/searchresults/${name}/${min}/${max}`)
         redirect(`/searchresults/${name}/${min}/${max}`)
     } 
 
@@ -49,10 +50,8 @@ export default async function SearchDetailPage( {params}:{params:{key:string,min
                         <option>2</option>
                         <option>1</option>
                     </select>
-                    <button type="submit" className="block rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white m-5">Search</button>
+                    <button data-test="search-submit" type="submit" className="block rounded-md bg-red-800 hover:bg-red-400 px-3 py-2 text-white m-5">Search</button>
                     </div>
-               
-                
             </form>
             </div>
             
