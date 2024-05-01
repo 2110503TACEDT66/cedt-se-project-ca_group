@@ -88,7 +88,7 @@ const { protect ,authorize } = require('../middleware/auth');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ReservationInput'
+ *             $ref: '#/components/schemas/Reservation'
  *     responses:
  *       '201':
  *         description: Successfully created a reservation.
@@ -147,7 +147,7 @@ const { protect ,authorize } = require('../middleware/auth');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ReservationInput'
+ *             $ref: '#/components/schemas/Reservation'
  *     responses:
  *       '200':
  *         description: Reservation updated successfully.

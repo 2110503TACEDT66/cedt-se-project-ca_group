@@ -6,10 +6,10 @@ const router = express.Router({ mergeParams: true });
 const { protect ,authorize } = require('../middleware/auth');
 
 router.route('/')
-    .get(protect,getReviews)
+    .get(getReviews)
     .post(protect,authorize('admin','user'),addReview);
 router.route('/:id')
-    .get(protect, getReview)
+    .get(getReview)
     .put(protect,authorize('admin','user'),updateReview)
     .delete(protect,authorize('admin','user'),deleteReview);
 
@@ -106,7 +106,7 @@ module.exports = router;
  *       '400':
  *         description: Bad request. Invalid input data.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '500':
  *         description: Internal server error.
  * /restaurants/{id}/reviews/{reviewId}:
@@ -141,7 +141,7 @@ module.exports = router;
  *       '400':
  *         description: Bad request. Invalid input data.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '404':
  *         description: Review not found.
  *       '500':
@@ -175,4 +175,3 @@ module.exports = router;
  *       '500':
  *         description: Internal server error.
  */
-

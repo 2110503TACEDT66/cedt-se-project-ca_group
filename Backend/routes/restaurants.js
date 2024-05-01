@@ -121,7 +121,7 @@ module.exports = router;
  *       '400':
  *         description: Bad request. Invalid input data.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '500':
  *         description: Internal server error.
  * 
@@ -192,7 +192,7 @@ module.exports = router;
  *       '400':
  *         description: Bad request. Invalid input data.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '404':
  *         description: Restaurant not found.
  *       '500':
@@ -214,7 +214,7 @@ module.exports = router;
  *       '204':
  *         description: Restaurant deleted successfully.
  *       '401':
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized.
  *       '404':
  *         description: Restaurant not found.
  *       '500':

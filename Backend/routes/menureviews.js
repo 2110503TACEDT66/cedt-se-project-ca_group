@@ -6,10 +6,10 @@ const router = express.Router({ mergeParams: true });
 const { protect ,authorize } = require('../middleware/auth');
 
 router.route('/')
-    .get(protect,getReviews)
+    .get(getReviews)
     .post(protect,authorize('admin','user'),addReview);
 router.route('/:id')
-    .get(protect, getReview)
+    .get(getReview)
     .put(protect,authorize('admin','user'),updateReview)
     .delete(protect,authorize('admin','user'),deleteReview);
 
@@ -86,12 +86,25 @@ module.exports = router;
  *     tags: [Menu Reviews]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the restaurant.
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: menuId
+ *         required: true
+ *         description: ID of the menu item.
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MenuReviewInput'
+ *             $ref: '#/components/schemas/MenuReview'
  *     responses:
  *       '201':
  *         description: Menu review added successfully.
@@ -219,4 +232,3 @@ module.exports = router;
  *       '500':
  *         description: Internal server error.
  */
-
